@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
 from datetime import timezone, timedelta
+from datetime import datetime
 
 
 load_dotenv()
@@ -22,12 +23,22 @@ DB_DSN = os.getenv("DB_DSN")
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
+
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
     with oracledb.connect(user=DB_USER, password=DB_PASS, dsn=DB_DSN) as connection:
         with connection.cursor() as cursor:
             cursor.execute("SELECT ID, NAME, EMAIL, PHONE, SUBMITTED_AT FROM LEADS ORDER BY SUBMITTED_AT DESC")
-            leads = cursor.fetchall()
+            leads = []
+            for row in cursor:
+                id, name, email, phone, submitted_at = row
+                if submitted_at:
+                    submitted_at = submitted_at.astimezone(IST)
+                    submitted_at_str = submitted_at.strftime("%d %B %Y, %-I:%M %p")
+                else:
+                    submitted_at_str = "N/A"
+                leads.append((id, name, email, phone, submitted_at_str))
+
     return templates.TemplateResponse("dashboard.html", {"request": request, "leads": leads})
 
 if __name__ == "__main__":
