@@ -1,15 +1,17 @@
+import os
+import oracledb
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import oracledb
-import os
 from dotenv import load_dotenv
-load_dotenv()
+from datetime import timezone, timedelta
 
-# Env setup
-os.environ["TNS_ADMIN"] = os.path.expanduser("~/oracle_wallet")
-oracledb.init_oracle_client(lib_dir=os.path.expanduser("~/oracle_client/instantclient_23_7"))
+
+load_dotenv()
+IST = timezone(timedelta(hours=5, minutes=30))
+
+# Oracle client setup
+oracledb.init_oracle_client(lib_dir="/app/oracle_client/instantclient_23_7")
 
 # DB Config
 DB_USER = os.getenv("DB_USER")
@@ -19,7 +21,6 @@ DB_DSN = os.getenv("DB_DSN")
 # FastAPI setup
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def dashboard(request: Request):
@@ -28,3 +29,7 @@ async def dashboard(request: Request):
             cursor.execute("SELECT ID, NAME, EMAIL, PHONE, SUBMITTED_AT FROM LEADS ORDER BY SUBMITTED_AT DESC")
             leads = cursor.fetchall()
     return templates.TemplateResponse("dashboard.html", {"request": request, "leads": leads})
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
