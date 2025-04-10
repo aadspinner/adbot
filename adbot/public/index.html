@@ -2,206 +2,171 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AdBot - Automate Instagram Ads</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AdBot - Automate Instagram Ads</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
 
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease-in-out;
+    }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-in-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
 
 <body class="bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white font-sans min-h-screen">
-    <div id="toast" class="hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm transition-opacity duration-300 opacity-0"></div>
 
-    <!-- Header -->
-    <header class="text-center p-10">
-        <h1 class="text-5xl font-bold tracking-wide mb-4 hover:scale-105 transition-transform duration-700">
-            🚀 AdBot
-        </h1>
-        <p class="text-xl text-gray-300">Automate Your Instagram Ads Like a Pro</p>
-    </header>
+  <!-- Toast -->
+  <div id="toast" class="hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-xl shadow-lg z-50 text-sm transition-opacity duration-300 opacity-0"></div>
 
-    <!-- Hero Section -->
-    <section class="flex flex-col items-center justify-center p-10 text-center reveal">
-        <p class="max-w-xl text-lg mb-6">
-            Tired of manually managing ads? Let <span class="font-bold text-yellow-300">AdBot</span> handle it for you —
-            smart, fast, and always on.
-        </p>
-        <a href="#features"
-            class="bg-yellow-400 text-black px-6 py-3 rounded-xl text-lg font-semibold hover:bg-yellow-300 shadow-lg hover:scale-105 transition-all">
-            Learn More
-        </a>
-    </section>
+  <!-- Header -->
+  <header class="text-center p-10">
+    <h1 class="text-5xl font-bold tracking-wide mb-4 hover:scale-105 transition-transform duration-700">🚀 AdBot</h1>
+    <p class="text-xl text-gray-300">Automate Your Instagram Ads Like a Pro</p>
+  </header>
 
+  <!-- Hero Section -->
+  <section class="flex flex-col items-center justify-center p-10 text-center reveal">
+    <p class="max-w-xl text-lg mb-6">
+      Tired of manually managing ads? Let <span class="font-bold text-yellow-300">AdBot</span> handle it for you — smart, fast, and always on.
+    </p>
+    <a href="#features" class="bg-yellow-400 text-black px-6 py-3 rounded-xl text-lg font-semibold hover:bg-yellow-300 shadow-lg hover:scale-105 transition-all">
+      Learn More
+    </a>
+  </section>
 
-    <!-- Features Section -->
-    <section id="features" class="mt-20 p-10 reveal">
-        <h2 class="text-3xl font-bold text-center mb-10">Why AdBot?</h2>
-        <div class="flex flex-col gap-8 items-center">
-            <div class="bg-white bg-opacity-10 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition-all w-full max-w-xl"
-                data-aos="fade-up">
-                <h3 class="text-xl font-semibold mb-2">📊 Data-Driven</h3>
-                <p>Targets the right audience using smart AI analytics.</p>
-            </div>
-            <div class="bg-white bg-opacity-10 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition-all w-full max-w-xl"
-                data-aos="fade-up">
-                <h3 class="text-xl font-semibold mb-2">⚡ Real-Time Automation</h3>
-                <p>Sets up, launches, and monitors ads on autopilot.</p>
-            </div>
-            <div class="bg-white bg-opacity-10 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition-all w-full max-w-xl"
-                data-aos="fade-up">
-                <h3 class="text-xl font-semibold mb-2">📱 Mobile-First</h3>
-                <p>Fully optimized for managing from your phone.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lead Capture Form Section -->
-<section class="p-10 mt-20 bg-white bg-opacity-10 rounded-xl max-w-xl mx-auto reveal">
-    <h2 class="text-3xl font-bold text-center mb-6">🚀 Let's Connect</h2>
-    <p class="text-center mb-8 text-lg opacity-80">Leave your details, and we’ll get in touch to supercharge your Insta ads.</p>
-  
-    <form action="#" method="POST" class="space-y-6">
-      <div>
-        <label for="name" class="block mb-2 font-medium">Name</label>
-        <input type="text" id="name" name="name" required
-               class="w-full p-3 rounded-md bg-white bg-opacity-20 backdrop-blur-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Your Name">
+  <!-- Features Section -->
+  <section id="features" class="mt-20 p-10 reveal">
+    <h2 class="text-3xl font-bold text-center mb-10">Why AdBot?</h2>
+    <div class="flex flex-col gap-8 items-center">
+      <div class="bg-white bg-opacity-10 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition-all w-full max-w-xl" data-aos="fade-up">
+        <h3 class="text-xl font-semibold mb-2">📊 Data-Driven</h3>
+        <p>Targets the right audience using smart AI analytics.</p>
       </div>
-      <div>
-        <label for="email" class="block mb-2 font-medium">Email</label>
-        <input type="email" id="email" name="email" required
-               class="w-full p-3 rounded-md bg-white bg-opacity-20 backdrop-blur-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="you@example.com">
+      <div class="bg-white bg-opacity-10 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition-all w-full max-w-xl" data-aos="fade-up">
+        <h3 class="text-xl font-semibold mb-2">⚡ Real-Time Automation</h3>
+        <p>Sets up, launches, and monitors ads on autopilot.</p>
       </div>
-      <div>
-        <label for="phone" class="block mb-2 font-medium">Phone</label>
-        <input type="tel" id="phone" name="phone" required
-               class="w-full p-3 rounded-md bg-white bg-opacity-20 backdrop-blur-sm text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="+91 99999 99999">
+      <div class="bg-white bg-opacity-10 p-6 rounded-xl shadow-lg hover:bg-opacity-20 transition-all w-full max-w-xl" data-aos="fade-up">
+        <h3 class="text-xl font-semibold mb-2">📱 Mobile-First</h3>
+        <p>Fully optimized for managing from your phone.</p>
       </div>
-      <button type="submit"
-              class="w-full bg-yellow-400 text-black py-3 rounded-xl font-semibold hover:bg-yellow-300 transition-all shadow-lg hover:scale-105">
-        Request a Callback
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section class="p-10 reveal">
+    <h2 class="text-2xl font-bold mb-4">Get Early Access</h2>
+    <form id="leadForm" class="flex flex-col gap-4 max-w-md mx-auto bg-white bg-opacity-10 p-6 rounded-xl">
+      <input id="name" type="text" placeholder="Your Name" required class="p-3 rounded text-black" />
+      <input id="email" type="email" placeholder="Your Email" required class="p-3 rounded text-black" />
+      <input id="phone" type="tel" placeholder="Phone Number" required class="p-3 rounded text-black" />
+      <button type="submit" class="bg-yellow-400 text-black py-3 rounded-xl font-bold hover:bg-yellow-300 transition-all">
+        🚀 Submit
       </button>
     </form>
   </section>
-  
 
-    <!-- Footer -->
-    <footer class="text-center mt-20 p-6 text-sm text-gray-400">
-        &copy; 2025 AdBot. All rights reserved.
-    </footer>
+  <!-- Footer -->
+  <footer class="text-center mt-20 p-6 text-sm text-gray-400">
+    &copy; 2025 AdBot. All rights reserved.
+  </footer>
 
-    <!-- AOS animation -->
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
 
-        // Reveal effect when scrolling
-        window.addEventListener("scroll", () => {
-            const reveals = document.querySelectorAll(".reveal");
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const revealPoint = 100;
+    window.addEventListener("scroll", () => {
+      document.querySelectorAll(".reveal").forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 100) {
+          el.classList.add("active");
+        }
+      });
+    });
+  </script>
 
-                if (elementTop < windowHeight - revealPoint) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        });
-    </script>
-
-<script>
+  <!-- Form Submission JS -->
+  <script>
     function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
-    
-      // Style based on type
       toast.classList.remove('bg-gray-900', 'bg-red-600', 'bg-green-500');
       toast.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-600');
-    
-      // Show toast
       toast.classList.remove('hidden');
       toast.classList.add('opacity-100');
-    
-      // Hide after 3 sec
       setTimeout(() => {
         toast.classList.remove('opacity-100');
         toast.classList.add('opacity-0');
-        setTimeout(() => toast.classList.add('hidden'), 300); // wait for fade-out
+        setTimeout(() => toast.classList.add('hidden'), 300);
       }, 3000);
     }
-    
-    document.querySelector("form").addEventListener("submit", async function (e) {
+  
+    document.getElementById("leadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-    
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-    
-      const data = { name, email, phone };
-    
+  
+      const data = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone").value.trim()
+      };
+  
       try {
-        const res = await fetch("https://GB806C347ABF915-USERDETAILS.adb.ap-mumbai-1.oraclecloudapps.com/ords/admin/leads/", {
+        const response = await fetch("https://GB806C347ABF915-USERDETAILS.adb.ap-mumbai-1.oraclecloudapps.com/ords/admin/leads/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         });
-    
-        if (res.ok) {
+  
+        if (response.ok) {
           showToast("✅ You're in! We'll reach out soon.");
           e.target.reset();
         } else {
-          showToast("❌ Oops! Something went wrong.", "error");
-          console.error(await res.text());
+          const errorText = await response.text();
+          console.error("ORDS Error:", errorText);
+          showToast("❌ Something went wrong. Try again.", "error");
         }
       } catch (err) {
-        console.error(err);
-        showToast("⚠️ Network error. Please try again.", "error");
+        console.error("Network Error:", err);
+        showToast("⚠️ Network error. Try again later.", "error");
       }
     });
-    </script>
-    
-  <!-- Lottie Player Script (only once needed) -->
-<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  </script>
+  
 
-<!-- Fixed Bottom Center Flex Container -->
-<div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-6 z-50">
-  <!-- Instagram Lottie -->
-  <a href="https://www.instagram.com/yourpage" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform duration-300">
-    <dotlottie-player 
-      src="https://lottie.host/ede59383-62d7-4d79-9dfe-afa262c908a7/wQxro6lMbR.lottie"
-      background="transparent" speed="1" style="width: 80px; height: 80px" loop autoplay>
-    </dotlottie-player>
-  </a>
+  <!-- Lottie + IG Icon -->
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+  <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-6 z-50">
+    <a href="https://www.instagram.com/yourpage" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform duration-300">
+      <dotlottie-player 
+        src="https://lottie.host/ede59383-62d7-4d79-9dfe-afa262c908a7/wQxro6lMbR.lottie"
+        background="transparent" speed="1" style="width: 80px; height: 80px" loop autoplay>
+      </dotlottie-player>
+    </a>
 
-  <!-- WhatsApp Lottie -->
+     <!-- WhatsApp Lottie -->
   <a href="https://wa.me/918277646669" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform duration-300">
     <dotlottie-player 
       src="https://lottie.host/57e54b2a-88d0-4558-9b3e-88edc5b125bb/3nuTEOG1vX.lottie"
       background="transparent" speed="1" style="width: 80px; height: 80px" loop autoplay>
     </dotlottie-player>
   </a>
-</div>
-
-
+  </div>
 </body>
 
 </html>
