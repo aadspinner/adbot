@@ -16,6 +16,7 @@ COPY backend/wallet/Wallet_userdetails /app/oracle_client/instantclient_23_7/net
 COPY backend/wallet/Wallet_userdetails /app/wallet
 COPY backend/oracle_client/instantclient_23_7 /app/oracle_client/instantclient_23_7
 
+
 # Install Python packages
 RUN pip install --no-cache-dir -r requirements.txt
 
