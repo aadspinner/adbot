@@ -16,19 +16,46 @@ from fastapi import FastAPI, Request
 import hashlib
 from fastapi.responses import PlainTextResponse
 
-from fastapi import FastAPI, Request
-from fastapi.responses import PlainTextResponse
 
+
+with open("proof.txt", "w") as f:
+    f.write("✅ Hello from inside container: " + os.getcwd())
+
+# Load environment variables
+load_dotenv()
 app = FastAPI()
 
-VERIFY_TOKEN = "your_expected_token_here"  # Replace this with your actual VERIFY_TOKEN from .env
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 
-from fastapi import FastAPI
-from webhook.routes import router as webhook_router
 
-app = FastAPI()
-app.include_router(webhook_router)
 
+
+# ---------webhook for facebook ------------
+
+
+@app.get("/webhook")
+async def verify_webhook(request: Request):
+    params = dict(request.query_params)
+    mode = params.get("hub.mode")
+    token = params.get("hub.verify_token")
+    challenge = params.get("hub.challenge")
+
+    print("🔍 VERIFY TOKEN RECEIVED:", token)
+    print("🔐 VERIFY TOKEN EXPECTED:", VERIFY_TOKEN)
+
+    if mode == "subscribe" and token == VERIFY_TOKEN:
+        return PlainTextResponse(content=challenge, status_code=200)
+    else:
+        return PlainTextResponse(content="Verification failed", status_code=403)
+
+@app.post("/webhook")
+async def receive_webhook(request: Request):
+    body = await request.json()
+    print("🔔 Webhook received:", body)
+    return {"status": "received"}
+
+
+# ---------webhook for facebook ------------
 
 print("SID:", os.getenv("TWILIO_SID"))
 print("TOKEN:", os.getenv("TWILIO_AUTH_TOKEN"))
@@ -128,4 +155,3 @@ async def dashboard(request: Request):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
-
