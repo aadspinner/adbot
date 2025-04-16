@@ -26,106 +26,39 @@ VERIFY_TOKEN = "your_expected_token_here"  # Replace this with your actual VERIF
 from fastapi import FastAPI
 from webhook.routes import router as webhook_router
 
-app = FastAPI()
-app.include_router(webhook_router)
+# ✅ Webhook verification
+VERIFY_TOKEN = "test123"
 
+@app.get("/webhook")
+async def verify_webhook(request: Request):
+    params = dict(request.query_params)
+    mode = params.get("hub.mode")
+    token = params.get("hub.verify_token")
+    challenge = params.get("hub.challenge")
 
-print("SID:", os.getenv("TWILIO_SID"))
-print("TOKEN:", os.getenv("TWILIO_AUTH_TOKEN"))
+    print("🔍 MODE:", mode)
+    print("🔍 TOKEN RECEIVED:", token)
+    print("🔐 TOKEN EXPECTED:", VERIFY_TOKEN)
+    print("🎯 CHALLENGE:", challenge)
 
-# Timezone setup
-IST = timezone(timedelta(hours=5, minutes=30))
-
-# Oracle client setup
-oracledb.init_oracle_client(lib_dir="/app/oracle_client/instantclient_23_7")
-
-# FastAPI setup
-app = FastAPI()
-templates = Jinja2Templates(directory="templates")
-#app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# CORS middleware (required for JS in browser)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # or set to your domain
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# DB Config
-DB_USER = os.getenv("DB_USER")
-DB_PASS = os.getenv("DB_PASS")
-DB_DSN = os.getenv("DB_DSN")
-
-# Twilio creds from .env
-
-TWILIO_SID = os.environ["TWILIO_SID"]
-TWILIO_AUTH_TOKEN = os.environ["TWILIO_AUTH_TOKEN"]
-TWILIO_FROM = "whatsapp:+14155238886"
-TWILIO_TO = "whatsapp:+918277646669"
-
-
-def send_whatsapp_alert(name, email, phone):
-    print("Calling Twilio to send WhatsApp alert...")
-
-    client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
-    message_body = f"🚨 New Lead Submitted!\nName: {name}\nEmail: {email}\nPhone: {phone}"
-
-    message = client.messages.create(
-        body=message_body,
-        from_=TWILIO_FROM,
-        to=TWILIO_TO
-    )
-
-    print("WhatsApp message sent:", message.sid)
-
-class Lead(BaseModel):
-    name: str
-    email: str
-    phone: str
-
-@app.post("/submit")
-async def handle_submission(
-    name: str = Form(...),
-    email: str = Form(...),
-    phone: str = Form(...)
-):
-    payload = {
-        "NAME": name,
-        "EMAIL": email,
-        "PHONE": phone
-    }
-
-    ords_url = "https://GB806C347ABF915-USERDETAILS.adb.ap-mumbai-1.oraclecloudapps.com/ords/admin/leads/"
-    headers = {"Content-Type": "application/json"}
-    response = requests.post(ords_url, json=payload, headers=headers)
-
-    if response.status_code == 201:
-        send_whatsapp_alert(name, email, phone)
-        return JSONResponse(content={"message": "Lead submitted"})
+    if mode == "subscribe" and token == VERIFY_TOKEN:
+        return PlainTextResponse(content=challenge, status_code=200)
     else:
-        print("ORDS Error:", response.text)
-        return JSONResponse(status_code=500, content={"message": "Error submitting lead"})
+        return PlainTextResponse(content="Verification failed", status_code=403)
 
-@app.get("/", response_class=HTMLResponse)
-async def dashboard(request: Request):
-    with oracledb.connect(user=DB_USER, password=DB_PASS, dsn=DB_DSN) as connection:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT ID, NAME, EMAIL, PHONE, SUBMITTED_AT FROM LEADS ORDER BY SUBMITTED_AT DESC")
-            leads = []
-            for row in cursor:
-                id, name, email, phone, submitted_at = row
-                if submitted_at:
-                    submitted_at = submitted_at.astimezone(IST)
-                    submitted_at_str = submitted_at.strftime("%d %B %Y, %-I:%M %p")
-                else:
-                    submitted_at_str = "N/A"
-                leads.append((id, name, email, phone, submitted_at_str))
+# ✅ Webhook event POST handler
+@app.post("/webhook")
+async def receive_webhook(request: Request):
+    body = await request.json()
+    print("🔔 Webhook received:", body)
+    return {"status": "received"}
 
-    return templates.TemplateResponse("dashboard.html", {"request": request, "leads": leads})
+# ✅ Example: Your regular routes can go here too
+@app.get("/")
+async def root():
+    return {"message": "AdBot backend is running"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
